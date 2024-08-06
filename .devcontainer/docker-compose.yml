@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  rabbitmqserver:
+    container_name: rabbitmq_server
+    image: rabbitmq:3-management-alpine
+    restart: always
+    # command: tail -f /dev/null
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      
+  rabbitmqclient:
+    container_name: rabbitmq_client
+    # image: python:3.9
+    restart: always
+    build: 
+      context: .
+      dockerfile: Dockerfile.client.rabbitmq
+    env_file:
+    - .env
+    volumes:
+      - ..:/workspaces
+    command: tail -f /dev/null
+    # command: python -m http.server 8000
+    # ports:
+    #   - 8081:8081
