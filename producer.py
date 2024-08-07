@@ -1,5 +1,9 @@
 import pika
 import json
+import os
+
+RMQ_USER = os.getenv("RABBITMQ_DEFAULT_USER", "guest")
+RMQ_USER_PASSW = os.getenv("RABBITMQ_DEFAULT_PASS", "guest")
 
 def send_message(message):
     channel.basic_publish(exchange='',
@@ -12,7 +16,8 @@ def send_message(message):
 
 
 if __name__=="__main__":
-    connection_parameters = pika.ConnectionParameters('rabbitmqserver')
+    credentials = pika.PlainCredentials(RMQ_USER, RMQ_USER_PASSW)
+    connection_parameters = pika.ConnectionParameters('rabbitmqserver', credentials=credentials)
     connection = pika.BlockingConnection(connection_parameters)
     channel = connection.channel()
 

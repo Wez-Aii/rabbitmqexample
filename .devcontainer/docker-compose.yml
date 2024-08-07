@@ -4,6 +4,8 @@ services:
   rabbitmqserver:
     container_name: rabbitmq_server
     image: rabbitmq:3-management-alpine
+    env_file:
+    - .env
     restart: always
     # command: tail -f /dev/null
     ports:

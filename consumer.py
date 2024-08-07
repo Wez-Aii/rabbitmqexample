@@ -1,10 +1,15 @@
 import pika
 import threading
 import json
+import os
 from time import sleep
 
+RMQ_USER = os.getenv("RABBITMQ_DEFAULT_USER", "guest")
+RMQ_USER_PASSW = os.getenv("RABBITMQ_DEFAULT_PASS", "guest")
+
 def consumer(consumer_id):
-    connection_parameters = pika.ConnectionParameters('rabbitmqserver')
+    credentials = pika.PlainCredentials(RMQ_USER, RMQ_USER_PASSW)
+    connection_parameters = pika.ConnectionParameters('rabbitmqserver', credentials=credentials)
     connection = pika.BlockingConnection(connection_parameters)
     channel = connection.channel()
 
